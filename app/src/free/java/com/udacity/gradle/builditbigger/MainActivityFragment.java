@@ -12,7 +12,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.udacity.gradle.jokedisplay.JokeActivity;
 
-public class MainActivityFragment extends Fragment implements OnJokeReceivedListener{
+public class MainActivityFragment extends Fragment implements OnJokeReceivedListener {
 
     public MainActivityFragment() {
     }

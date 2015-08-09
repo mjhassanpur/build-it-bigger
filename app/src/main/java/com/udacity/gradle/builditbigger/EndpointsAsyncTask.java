@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * @see <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints"></a>
  */
-class EndpointsAsyncTask extends AsyncTask<OnJokeReceivedListener, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<OnJokeReceivedListener, Void, String> {
     private static MyApi myApiService = null;
     private OnJokeReceivedListener listener;
 
