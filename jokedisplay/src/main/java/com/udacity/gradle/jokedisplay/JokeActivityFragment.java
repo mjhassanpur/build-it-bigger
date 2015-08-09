@@ -23,7 +23,7 @@ public class JokeActivityFragment extends Fragment {
         if (joke != null && joke.length() != 0) {
             jokeTextView.setText(joke);
         }
-        
+
         return root;
     }
 }
