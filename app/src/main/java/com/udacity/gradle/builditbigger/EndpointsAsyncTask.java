@@ -1,25 +1,22 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
-import com.udacity.gradle.jokedisplay.JokeActivity;
 
 import java.io.IOException;
 
 /**
  * @see <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloEndpoints"></a>
  */
-class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
+class EndpointsAsyncTask extends AsyncTask<OnJokeReceivedListener, Void, String> {
     private static MyApi myApiService = null;
-    private Context context;
+    private OnJokeReceivedListener listener;
 
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(OnJokeReceivedListener... params) {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://build-it-bigger-1032.appspot.com/_ah/api/");
@@ -27,7 +24,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
             myApiService = builder.build();
         }
 
-        context = params[0];
+        listener = params[0];
 
         try {
             return myApiService.tellJoke().execute().getData();
@@ -38,8 +35,6 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intent = new Intent(context, JokeActivity.class);
-        intent.putExtra(JokeActivity.JOKE_KEY, result);
-        context.startActivity(intent);
+        listener.onReceived(result);
     }
 }
