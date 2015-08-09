@@ -7,12 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.udacity.gradle.jokedisplay.JokeActivity;
 
 public class MainActivityFragment extends Fragment implements OnJokeReceivedListener {
+
+    private ProgressBar mSpinner;
 
     public MainActivityFragment() {
     }
@@ -30,6 +33,8 @@ public class MainActivityFragment extends Fragment implements OnJokeReceivedList
             }
         });
 
+        mSpinner = (ProgressBar) root.findViewById(R.id.progressBar);
+
         AdView mAdView = (AdView) root.findViewById(R.id.adView);
         // Create an ad request. Check logcat output for the hashed device ID to
         // get test ads on a physical device. e.g.
@@ -43,12 +48,14 @@ public class MainActivityFragment extends Fragment implements OnJokeReceivedList
 
     @Override
     public void onReceived(String joke) {
+        mSpinner.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(getActivity(), JokeActivity.class);
         intent.putExtra(JokeActivity.JOKE_KEY, joke);
         startActivity(intent);
     }
 
     public void startJokeActivity(){
+        mSpinner.setVisibility(View.VISIBLE);
         new EndpointsAsyncTask().execute(this);
     }
 }
